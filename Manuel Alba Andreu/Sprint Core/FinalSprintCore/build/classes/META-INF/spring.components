@@ -1,0 +1,9 @@
+#
+#Tue May 12 08:43:32 CEST 2026
+finalsprintcore.AudiR4=org.springframework.stereotype.Component
+finalsprintcore.CircuitoConfig=org.springframework.stereotype.Component
+finalsprintcore.CircuitoM\u00F3naco=org.springframework.stereotype.Component
+finalsprintcore.CircuitoNurburgring=org.springframework.stereotype.Component
+finalsprintcore.CircuitoSilverstone=org.springframework.stereotype.Component
+finalsprintcore.CocheF1=org.springframework.stereotype.Component
+finalsprintcore.FerrariF40=org.springframework.stereotype.Component

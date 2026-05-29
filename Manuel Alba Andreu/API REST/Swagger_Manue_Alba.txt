@@ -1,0 +1,366 @@
+openapi: 3.0.3
+
+info:
+  title: API Ejercicio
+  description: API REST de Project y Detail
+  version: 1.0.0
+
+tags:
+  - name: Project
+    description: Operaciones relacionadas con projcet
+
+  - name: Detail
+    description: Operaciones relacionadas con deatil
+
+paths:
+  /projects:
+    get:
+      tags:
+        - Project
+      summary: Obtener todos los proyectos
+
+      parameters:
+        - $ref: '#/components/parameters/token'
+
+      responses:
+        '200':
+          description: (OK) Lista de proyectos
+
+          content:
+            application/json:
+              schema:
+                type: array
+
+                items:
+                  $ref: '#/components/schemas/Project'
+
+    post:
+      tags:
+        - Project
+      summary: Crear un proyecto
+
+      parameters:
+        - $ref: '#/components/parameters/token'
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+
+      responses:
+        '201':
+          description: (OK) Proyecto creado correctamente
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+
+        '400':
+          description: (ERROR) Datos inválidos
+
+  /projects/{id}:
+
+    put:
+      tags:
+        - Project
+      summary: Actualizar proyecto
+
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+
+      responses:
+        '200':
+          description: (OK) Proyecto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          description: (ERROR) Proyecto no encontrado
+
+    delete:
+      tags:
+        - Project
+      summary: Eliminar proyecto
+
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: (OK) Proyecto eliminado correctamente
+        '404':
+          description: (ERROR) Proyecto no encontrado
+
+  /details:
+
+    get:
+      tags:
+        - Detail
+      summary: Obtener todos los detalles
+
+      parameters:
+        - $ref: '#/components/parameters/token'
+
+      responses:
+        '200':
+          description: Lista de detalle
+
+          content:
+            application/json:
+              schema:
+                type: array
+
+                items:
+                  $ref: '#/components/schemas/Detail'
+
+    post:
+      tags:
+        - Detail
+      summary: Crear un detalle
+
+      parameters:
+        - $ref: '#/components/parameters/token'
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetailCreate'
+
+      responses:
+        '201':
+          description: (OK) Detallee creado correctamente
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Detail'
+        '400':
+          description: (ERROR) Datos inválidos
+
+  /details/{id}:
+
+    put:
+      tags:
+        - Detail
+      summary: Actualizar detalle
+
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - name: id
+          in: path
+          required: true
+
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetailUpdate'
+
+      responses:
+        '200':
+          description: (OK) Detalle actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Detail'
+        '404':
+          description: (ERROR) Detalle no encontrado
+
+    delete:
+      tags:
+        - Detail
+      summary: Eliminar detalle
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - name: id
+          in: path
+          required: true
+
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: (OK) Detalle eliminado correctamente
+        '404':
+          description: (ERROR) Detalle no encontrado
+
+components:
+
+  parameters:
+
+    token:
+      name: token
+      in: header
+      required: true
+      description: Token de autenticación
+
+      schema:
+        type: string
+
+  schemas:
+
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+
+        description:
+          type: string
+          example: API REST
+
+        language:
+          type: string
+          example: Java
+
+        open:
+          type: boolean
+          example: true
+
+    ProjectCreate:
+      type: object
+
+      required:
+        - description
+        - language
+        - open
+
+      properties:
+        description:
+          type: string
+          example: API REST
+
+        language:
+          type: string
+          example: Java
+
+        open:
+          type: boolean
+          example: true
+
+    ProjectUpdate:
+      type: object
+      properties:
+
+        description:
+          type: string
+          example: API actualizada
+
+        language:
+          type: string
+          example: Python
+
+        open:
+          type: boolean
+          example: false
+
+    Detail:
+      type: object
+      properties:
+
+        id:
+          type: integer
+          example: 1
+
+        date:
+          type: string
+          format: date
+          example: 2026-05-18
+
+        content:
+          type: string
+          example: Información  del proyecto
+
+        type:
+          type: string
+          example: Backend
+
+        budget:
+          type: number
+          format: float
+          example: 5000
+
+        projectId:
+          type: integer
+          example: 1
+
+    DetailCreate:
+      type: object
+
+      required:
+        - date
+        - content
+        - type
+        - budget
+        - projectId
+
+      properties:
+
+        date:
+          type: string
+          format: date
+
+        content:
+          type: string
+
+        type:
+          type: string
+
+        budget:
+          type: number
+          format: float
+
+        projectId:
+          type: integer
+
+    DetailUpdate:
+      type: object
+
+      properties:
+
+        date:
+          type: string
+          format: date
+
+        content:
+          type: string
+
+        type:
+          type: string
+
+        budget:
+          type: number
+          format: float
